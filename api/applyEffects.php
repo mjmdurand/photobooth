@@ -146,7 +146,19 @@ foreach ($srcImages as $image) {
             ($config['picture']['take_frame'] && $_POST['style'] !== 'collage' && testFile($config['picture']['frame'])) ||
             ($editSingleCollage && $config['collage']['take_frame'] === 'always' && testFile($config['collage']['frame']))
         ) {
+            //$imageResource = applyFrame($imageResource, $picture_frame);
+            $picture_frame_gd = imagecreatefrompng($picture_frame);
+            //Portrait
+            if (imagesx($picture_frame_gd) < imagesx($imageResource)) {
+            $imageResource = resizeBeforeApplyFrame($imageResource, $picture_frame);
             $imageResource = applyFrame($imageResource, $picture_frame);
+            }
+
+            //Landscape
+            else {
+            $imageResource = applyFrame($imageResource, $picture_frame);
+            }
+
             $imageModified = true;
         }
 
